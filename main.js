@@ -19,5 +19,25 @@ function init () {
 		],
 		target: 'js-map'
 	})
+
+	const popupContainerElement = document.getElementById("popup-coordinates");
+
+	const popup = new ol.Overlay({
+		element: popupContainerElement
+	})
+
+	map.addOverlay(popup);
+
+	map.on('click', function(e){
+		console.log(e);
+		const clickedCoordinate = e.coordinate;
+		//popup.setPosition(undefined);
+		popup.setPosition(clickedCoordinate);
+		
+		
+		const lonLat = ol.proj.transform(clickedCoordinate, 'EPSG:3857', 'EPSG:4326');
+		console.log(lonLat);
+		popupContainerElement.innerHTML = lonLat[1] + ", " + lonLat[0];
+	})
  
 } 
