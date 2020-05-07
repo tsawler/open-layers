@@ -17,7 +17,8 @@ function init () {
 				source: new ol.source.OSM()
 			 })
 		],
-		target: 'js-map'
+		target: 'js-map',
+		keyboardEventTarget: document,
 	})
 
 	const popupContainerElement = document.getElementById("popup-coordinates");
@@ -40,5 +41,12 @@ function init () {
 		console.log(lonLat);
 		popupContainerElement.innerHTML = lonLat[1] + ", " + lonLat[0];
 	})
+
+
+	const dragRotateInteraction = new ol.interaction.DragRotate({
+		condition: ol.events.condition.altKeyOnly
+	})
+
+	map.addInteraction(dragRotateInteraction)
  
 } 
