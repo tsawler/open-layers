@@ -23,7 +23,8 @@ function init () {
 	const popupContainerElement = document.getElementById("popup-coordinates");
 
 	const popup = new ol.Overlay({
-		element: popupContainerElement
+		element: popupContainerElement, 
+		positioning: 'bottom-center',
 	})
 
 	map.addOverlay(popup);
@@ -31,7 +32,7 @@ function init () {
 	map.on('click', function(e){
 		console.log(e);
 		const clickedCoordinate = e.coordinate;
-		//popup.setPosition(undefined);
+		popup.setPosition(undefined);
 		popup.setPosition(clickedCoordinate);
 		
 		
