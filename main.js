@@ -4,19 +4,10 @@ function init () {
 
 	// Controls
 	const fullScreenControl = new ol.control.FullScreen();
-	const mousePositionControl = new ol.control.MousePosition();
-	const overViewMapControl = new ol.control.OverviewMap({
-		layers: [
-			new ol.layer.Tile({
-				source: new ol.source.OSM()
-			 })
-		]
-	});
-	const scaleLineControl = new ol.control.ScaleLine();
 	const zoomSliderControl = new ol.control.ZoomSlider();
 	const zoomToExtentControl = new ol.control.ZoomToExtent();
 
-	const frederictonLatLon = [-66.7675296, 45.9925778];
+	const frederictonLatLon = [-66.76388278666946, 45.99639632131496];
 	const frederictonMercator = ol.proj.fromLonLat(frederictonLatLon);
 
 	const map = new ol.Map({
@@ -28,20 +19,30 @@ function init () {
 		}),
 		layers: [
 			new ol.layer.Tile({
-				source: new ol.source.OSM()
+				source: new ol.source.OSM(),
 			 })
 		],
 		target: 'js-map',
 		keyboardEventTarget: document,
 		controls: ol.control.defaults().extend([
 			fullScreenControl,
-			// mousePositionControl,
-			// overViewMapControl,
-			// scaleLineControl,
 			zoomSliderControl,
 			zoomToExtentControl,
 		])
 	})
+
+	// const markerLayer = new ol.layer.Vector({
+	// 	source: new ol.source.Vector({
+	// 		features: [
+	// 			new ol.Feature({
+	// 				geometry: new ol.geom.Point(ol.proj.fromLonLat([-66.76460698310346, 45.99618390011389]))
+	// 			})
+	// 		]
+	// 	})
+	// });
+	// map.addLayer(markerLayer);
+
+	addMapMarker(map, 45.99618390011389, -66.76460698310346,)
 
 	const popupContainerElement = document.getElementById("popup-coordinates");
 
@@ -53,7 +54,6 @@ function init () {
 	map.addOverlay(popup);
 
 	map.on('click', function(e){
-		console.log(e);
 		const clickedCoordinate = e.coordinate;
 		popup.setPosition(undefined);
 		popup.setPosition(clickedCoordinate);
@@ -62,6 +62,8 @@ function init () {
 		const lonLat = ol.proj.transform(clickedCoordinate, 'EPSG:3857', 'EPSG:4326');
 		console.log(lonLat);
 		popupContainerElement.innerHTML = lonLat[1] + ", " + lonLat[0];
+		document.getElementById("lat").value = lonLat[1];
+		document.getElementById("lon").value = lonLat[0];
 	})
 
 
@@ -72,3 +74,24 @@ function init () {
 	map.addInteraction(dragRotateInteraction)
  
 } 
+
+function addMapMarker(m, lat, lng) {
+	var vectorLayer = new ol.layer.Vector({
+	  source:new ol.source.Vector({
+		features: [new ol.Feature({
+			  geometry: new ol.geom.Point(ol.proj.transform([parseFloat(lng), parseFloat(lat)], 'EPSG:4326', 'EPSG:3857')),
+		  })]
+	  }),
+	  style: new ol.style.Style({
+		image: new ol.style.Icon({
+		  anchor: [0.5, 0.5],
+		  anchorXUnits: "fraction",
+		  anchorYUnits: "fraction",
+		//   src: "https://upload.wikimedia.org/wikipedia/commons/e/ed/Map_pin_icon.svg"
+		  src: "img/pin.svg"
+		})
+	  })
+	});
+
+	m.addLayer(vectorLayer); 
+  }

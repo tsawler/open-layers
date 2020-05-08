@@ -1,8 +1,8 @@
 .map {
-    /* height: 100vh;
-    min-width: 100vw; */
-    width: 1200px;
-    height: 900px;
+    height: 80vh;
+    min-width: 80vh;
+    /* width: 1200px;
+    height: 900px; */
     padding: 0;
     padding: 0;
 }
