@@ -31,18 +31,7 @@ function init () {
 		])
 	})
 
-	// const markerLayer = new ol.layer.Vector({
-	// 	source: new ol.source.Vector({
-	// 		features: [
-	// 			new ol.Feature({
-	// 				geometry: new ol.geom.Point(ol.proj.fromLonLat([-66.76460698310346, 45.99618390011389]))
-	// 			})
-	// 		]
-	// 	})
-	// });
-	// map.addLayer(markerLayer);
-
-	addMapMarker(map, 45.99618390011389, -66.76460698310346,)
+	addMapMarker(map, 45.99639632131496,-66.76388278666946)
 
 	const popupContainerElement = document.getElementById("popup-coordinates");
 
