@@ -1,4 +1,22 @@
 window.onload=init;
+
+const container = document.getElementById('popup');
+const content = document.getElementById('popup-content');
+const closer = document.getElementById('popup-closer');
+
+closer.onclick = function() {
+	popupOverlay.setPosition(undefined);
+	closer.blur();
+	return false;
+};
+
+const popupOverlay = new ol.Overlay({
+	element: container,
+	autoPan: true,
+	autoPanAnimation: {
+		duration: 250
+	}
+});
      
 function init () {
 
@@ -33,34 +51,21 @@ function init () {
 
 	addMapMarker(map, 45.99639632131496,-66.76388278666946)
 
-	const popupContainerElement = document.getElementById("popup-coordinates");
+	
 
-	const popup = new ol.Overlay({
-		element: popupContainerElement, 
-		positioning: 'bottom-center',
-	})
+	map.addOverlay(popupOverlay);
 
-	map.addOverlay(popup);
-
-	map.on('click', function(e){
-		const clickedCoordinate = e.coordinate;
-		popup.setPosition(undefined);
-		popup.setPosition(clickedCoordinate);
-		
-		
-		const lonLat = ol.proj.transform(clickedCoordinate, 'EPSG:3857', 'EPSG:4326');
-		console.log(lonLat);
-		popupContainerElement.innerHTML = lonLat[1] + ", " + lonLat[0];
-		document.getElementById("lat").value = lonLat[1];
-		document.getElementById("lon").value = lonLat[0];
-	})
-
-
-	const dragRotateInteraction = new ol.interaction.DragRotate({
-		condition: ol.events.condition.altKeyOnly
-	})
-
-	map.addInteraction(dragRotateInteraction)
+	map.on('singleclick', function (event) {
+		if (map.hasFeatureAtPixel(event.pixel) === true) {
+			var coordinate = event.coordinate;
+   
+			content.innerHTML = 'Myria lives here!';
+			popupOverlay.setPosition(coordinate);
+		} else {
+			popupOverlay.setPosition(undefined);
+			closer.blur();
+		}
+	});
  
 } 
 
