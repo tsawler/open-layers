@@ -12,6 +12,9 @@ function init () {
 			 })
 		]
 	});
+	const scaleLineControl = new ol.control.ScaleLine();
+	const zoomSliderControl = new ol.control.ZoomSlider();
+	const zoomToExtentControl = new ol.control.ZoomToExtent();
 
 	const frederictonLatLon = [-66.7675296, 45.9925778];
 	const frederictonMercator = ol.proj.fromLonLat(frederictonLatLon);
@@ -32,8 +35,11 @@ function init () {
 		keyboardEventTarget: document,
 		controls: ol.control.defaults().extend([
 			fullScreenControl,
-			mousePositionControl,
-			overViewMapControl,
+			// mousePositionControl,
+			// overViewMapControl,
+			// scaleLineControl,
+			zoomSliderControl,
+			zoomToExtentControl,
 		])
 	})
 
