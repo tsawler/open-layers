@@ -2,6 +2,17 @@ window.onload=init;
      
 function init () {
 
+	// Controls
+	const fullScreenControl = new ol.control.FullScreen();
+	const mousePositionControl = new ol.control.MousePosition();
+	const overViewMapControl = new ol.control.OverviewMap({
+		layers: [
+			new ol.layer.Tile({
+				source: new ol.source.OSM()
+			 })
+		]
+	});
+
 	const frederictonLatLon = [-66.7675296, 45.9925778];
 	const frederictonMercator = ol.proj.fromLonLat(frederictonLatLon);
 
@@ -19,6 +30,11 @@ function init () {
 		],
 		target: 'js-map',
 		keyboardEventTarget: document,
+		controls: ol.control.defaults().extend([
+			fullScreenControl,
+			mousePositionControl,
+			overViewMapControl,
+		])
 	})
 
 	const popupContainerElement = document.getElementById("popup-coordinates");
